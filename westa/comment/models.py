@@ -5,3 +5,6 @@ class Comment(models.Model):
     comment_text    = models.TextField()
     published_at    = models.DateTimeField(auto_now_add = True)
     created_at      = models.DateTimeField(auto_now = True)
+
+    class Meta:
+        db_table = 'comments'

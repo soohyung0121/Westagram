@@ -19,14 +19,7 @@ class CommentView(View):
         except KeyError:
             return JsonResponse({"message" : "INVALID ERROR"}, status = 400)
 
-
     def get(self, request):
         data = json.loads(request.body)
-        fix_user_text = []
-        comment_context = Comment.objects.values()
-
-        for i in range(len(comment_context)):
-            if comment_context[i]['comment_user'] == data['comment_user']:
-                fix_user_text.append(comment_context[i]['comment_text'])
-
-        return JsonResponse({data['comment_user'] : fix_user_text}, status = 200)
+        comment_context = Comment.objects.filter(comment_user=data['comment_user']).values('comment_text')
+        return JsonResponse({data['comment_user']: list(comment_context)}, status=200)
